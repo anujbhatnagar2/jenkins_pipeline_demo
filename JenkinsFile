@@ -1,0 +1,34 @@
+pipeline{
+    tools{
+        maven "mymaven"
+    }
+    agent any
+    
+    stages{
+        stage("clone from Git repo"){
+            steps{
+                git credentialsId: 'anuj_git_credentials', url: 'https://github.com/anujbhatnagar2/DevOpsCodeDemo.git'
+            }
+        }
+        stage("review the code"){
+            steps{
+                sh 'mvn pmd:pmd'
+            }
+        }
+        stage("compile the code"){
+            steps{
+                sh 'mvn compile'
+            }
+        }
+        stage("test the code"){
+            steps{
+                sh 'mvn test'
+            }
+        }
+        stage("package the code"){
+            steps{
+                sh 'mvn package'
+            }
+        }
+    }
+}
